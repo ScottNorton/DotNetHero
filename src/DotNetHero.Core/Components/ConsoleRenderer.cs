@@ -6,7 +6,7 @@ namespace DotNetHero.Core.Components
     using DotNetHero.Core.Geometry;
     using DotNetHero.Core.Structures;
 
-    public class ConsoleRenderer
+    public class ConsoleRenderer : ContextThread<ConsoleRenderer>
     {
         const char TransparentDecoration = ' ';
 
@@ -23,10 +23,16 @@ namespace DotNetHero.Core.Components
         /// Need to keep execution of redraws (stide drawing via history) close to 30ms as possible to keep motion smooth.
         /// todo distil math for focal point drawing, viewport occlusion, and centering - no rectangle clipping allowed!
         /// todo figure out why the buffer is drawn one under size.
-        /// todo dedicated console draw thread
+        /// todo dedicated console draw thread - done
         /// </remarks>
         public void Draw(GameField field, Xy focusPoint)
         {
+            if (!this.InThreadContext)
+            {
+                this.PostAsync(() => this.Draw(field, focusPoint));
+                return;
+            }
+
             this.CheckViewportState();
 
             Xy drawModelFrom = Xy.Empty;
@@ -35,7 +41,7 @@ namespace DotNetHero.Core.Components
             if (focusPoint.Y >= this.viewport.Y / 2)
                 drawModelFrom.Y = focusPoint.Y / 2;
 
-            var drawSize =  new Xy(
+            var drawSize = new Xy(
                 (int)Math.Ceiling(field.Size.X * (1f / field.Size.X * this.viewport.X)),
                 (int)(field.Size.Y * (1f / field.Size.Y * this.viewport.Y)));
 
