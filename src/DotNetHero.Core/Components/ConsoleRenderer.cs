@@ -6,12 +6,17 @@ namespace DotNetHero.Core.Components
     using DotNetHero.Core.Geometry;
     using DotNetHero.Core.Structures;
 
-    public class ConsoleRenderer : ContextThread<ConsoleRenderer>
+    public sealed class ConsoleRenderer : ContextThread<ConsoleRenderer>
     {
         const char TransparentDecoration = ' ';
 
         ConsoleColor[,] history;
         Xy viewport;
+
+        private ConsoleRenderer()
+        {
+            
+        }
 
         public event Action OnViewportChange;
 

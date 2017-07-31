@@ -7,12 +7,13 @@ namespace DotNetHero.Core.Components
     using System.Threading;
 
     /// <summary>
-    /// Asynchronous, contextual, object-oriented threading implementation.
+    /// Asynchronous, contextual, singleton object-oriented threading design implementation.
     /// </summary>
     /// <remarks>
-    /// Can produce synchronous invocation.
+    /// Can produce synchronous invocation when <see cref="PostAsync"/> is called from another asynchronous thread.
+    /// todo investigate hardware starvation possibility within <see cref="ThreadBody"/>, after looking through coreclr there is no yield in <see cref="SemaphoreSlim"/>.Wait()
     /// </remarks>
-    public abstract class ContextThread<T>
+    public abstract class ContextThread<T> : SingletonComponent<T>
         where T : ContextThread<T>
     {
         readonly ConcurrentQueue<Action> actionQueue;
@@ -57,9 +58,9 @@ namespace DotNetHero.Core.Components
 
         void ThreadBody()
         {
-            for (;; this.workBlock.Wait())
-                while (this.actionQueue.Count > 0 && this.actionQueue.TryDequeue(out this.activeAction))
-                    this.TryInvokeActive();
+            for (this.workBlock.Wait(), this.actionQueue.TryDequeue(out this.activeAction);; // before loop with no loop condition
+                this.workBlock.Wait(), this.actionQueue.TryDequeue(out this.activeAction)) // at end of loop
+                this.TryInvokeActive();
         }
 
         void TryInvokeActive()

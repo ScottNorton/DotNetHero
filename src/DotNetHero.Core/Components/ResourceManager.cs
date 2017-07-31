@@ -7,7 +7,7 @@ namespace DotNetHero.Core.Components
     using System.IO;
     using DotNetHero.Core.Structures;
 
-    public class ResourceManager
+    public sealed class ResourceManager : SingletonComponent<ResourceManager>
     {
         const string ResourcePath = "system\\resource\\";
 
@@ -18,7 +18,7 @@ namespace DotNetHero.Core.Components
         readonly DirectoryInfo resourceDirectory;
         public readonly Dictionary<uint, GameField> FieldDictionary;
 
-        public ResourceManager()
+        ResourceManager()
         {
             this.FieldDictionary = new Dictionary<uint, GameField>();
 
