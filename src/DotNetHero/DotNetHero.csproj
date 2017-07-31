@@ -13,4 +13,8 @@
     <OutputPath>..\..\build\release\</OutputPath>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DotNetHero.Core\DotNetHero.Core.csproj" />
+  </ItemGroup>
+
 </Project>
