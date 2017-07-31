@@ -24,8 +24,6 @@ namespace DotNetHero.Core.Engines
         {
             this.OnStart?.Invoke();
 
-
-
             // todo capture and manage main thread for input
             while (true)
                 Thread.Sleep(-1);

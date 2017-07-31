@@ -13,9 +13,8 @@ namespace DotNetHero.Core.Components
         ConsoleColor[,] history;
         Xy viewport;
 
-        private ConsoleRenderer()
+        ConsoleRenderer()
         {
-            
         }
 
         public event Action OnViewportChange;
