@@ -11,7 +11,13 @@ namespace DotNetHero.Core.Scenes
     {
         public void Load()
         {
+            SceneManager.Instance.Cookie = (uint)1000;
             SceneManager.Instance.LoadScene("World");
+        }
+
+        public void ProcessInput(MappedInput input)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -17,6 +17,10 @@ namespace DotNetHero.Core.Components
         ShiftS,
         ShiftSw,
         ShiftW,
-        ShiftNw
+        ShiftNw,
+
+
+        //Internal
+        RefreshMap
     }
 }

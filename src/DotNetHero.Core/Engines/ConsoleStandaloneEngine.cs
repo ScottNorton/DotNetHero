@@ -29,7 +29,10 @@ namespace DotNetHero.Core.Engines
 
             // todo capture and manage main thread for input
             while (true)
-                Thread.Sleep(-1);
+            {
+                ConsoleInputProcessor.Instance.Check();
+                Thread.Sleep(1);
+            }
         }
     }
 }

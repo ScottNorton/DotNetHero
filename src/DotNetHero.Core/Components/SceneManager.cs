@@ -15,6 +15,7 @@ namespace DotNetHero.Core.Components
     sealed class SceneManager : SingletonComponent<SceneManager>
     {
         public readonly Dictionary<string, TypeInfo> Scenes;
+        public object Cookie;
 
         public IRenderer Renderer { get; private set; }
 
@@ -48,6 +49,14 @@ namespace DotNetHero.Core.Components
 
             this.ActiveScene = (IScene)this.Scenes[name].DeclaredConstructors.First().Invoke(null);
             this.ActiveScene.Load();
+        }
+
+        /// <summary>
+        /// Passes mapped input to the active scene.
+        /// </summary>
+        public void ProcessInput(MappedInput input)
+        {
+            this.ActiveScene.ProcessInput(input);
         }
     }
 }
