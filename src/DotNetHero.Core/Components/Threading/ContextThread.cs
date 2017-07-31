@@ -1,10 +1,11 @@
 ﻿// Authored by Scott B. Norton
 
-namespace DotNetHero.Core.Components
+namespace DotNetHero.Core.Components.Threading
 {
     using System;
     using System.Collections.Concurrent;
     using System.Threading;
+    using DotNetHero.Core.Interfaces;
 
     /// <summary>
     /// Asynchronous, contextual, singleton object-oriented threading design implementation.
@@ -13,7 +14,7 @@ namespace DotNetHero.Core.Components
     /// Can produce synchronous invocation when <see cref="PostAsync"/> is called from another asynchronous thread.
     /// todo investigate hardware starvation possibility within <see cref="ThreadBody"/>, after looking through coreclr there is no yield in <see cref="SemaphoreSlim"/>.Wait()
     /// </remarks>
-    public abstract class ContextThread<T> : SingletonComponent<T>
+    public abstract class ContextThread<T> : SingletonComponent<T>, IContextThread
         where T : ContextThread<T>
     {
         readonly ConcurrentQueue<Action> actionQueue;

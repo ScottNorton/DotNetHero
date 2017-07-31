@@ -3,6 +3,7 @@
 namespace DotNetHero.Core.Components
 {
     using System;
+    using DotNetHero.Core.Components.Threading;
     using DotNetHero.Core.Geometry;
     using DotNetHero.Core.Interfaces;
     using DotNetHero.Core.Structures;
