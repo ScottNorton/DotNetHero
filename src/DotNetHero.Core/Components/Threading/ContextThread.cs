@@ -59,9 +59,9 @@ namespace DotNetHero.Core.Components.Threading
 
         void ThreadBody()
         {
-            for (this.workBlock.Wait(), this.actionQueue.TryDequeue(out this.activeAction);; // before loop with no loop condition
-                this.workBlock.Wait(), this.actionQueue.TryDequeue(out this.activeAction)) // at end of loop
-                this.TryInvokeActive();
+            for (; ; this.workBlock.Wait())
+                while (this.actionQueue.Count > 0 && this.actionQueue.TryDequeue(out this.activeAction))
+                    this.TryInvokeActive();
         }
 
         void TryInvokeActive()

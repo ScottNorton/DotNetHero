@@ -18,11 +18,14 @@ namespace DotNetHero.Core.Scenes
         public void Load()
         {
             this.renderer = SceneManager.Instance.Renderer;
+            this.renderer.OnViewportChange += this.DrawWorld;
             this.hero = new Hero();
 
             var cookie = SceneManager.Instance.Cookie;
             if (cookie is uint)
                 this.field = ResourceManager.Instance.FieldDictionary[(uint)cookie];
+
+            this.DrawWorld();
         }
 
         public void ProcessInput(MappedInput input)

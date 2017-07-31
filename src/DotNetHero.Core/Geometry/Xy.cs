@@ -56,5 +56,9 @@ namespace DotNetHero.Core.Geometry
             return other.X == this.X &&
                 other.Y == this.Y;
         }
+        public override string ToString()
+        {
+            return $"({this.X}, {this.Y})";
+        }
     }
 }

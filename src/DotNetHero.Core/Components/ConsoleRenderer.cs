@@ -12,12 +12,11 @@ namespace DotNetHero.Core.Components
     {
         const char TransparentDecoration = ' ';
 
+        readonly ContextTimer<ConsoleRenderer> timer;
         ConsoleColor[,] history;
         Xy viewport;
 
-        ConsoleRenderer()
-        {
-        }
+        ConsoleRenderer() => this.timer = new ContextTimer<ConsoleRenderer>(this.CheckViewportState, TimeSpan.Zero, TimeSpan.FromMilliseconds(10));
 
         public event Action OnViewportChange;
 
@@ -27,12 +26,13 @@ namespace DotNetHero.Core.Components
         /// <remarks>
         /// This will take some extra time to distill before it's complete, will come back to it later.
         /// Need to keep execution of redraws (stide drawing via history) close to 30ms as possible to keep motion smooth.
-        /// todo distil math for focal point drawing, viewport occlusion, and centering - no rectangle clipping allowed!
-        /// todo figure out why the buffer is drawn one under size.
-        /// todo dedicated console draw thread - done
+        /// todo figure out why the buffer is drawn one under size in both axises
         /// </remarks>
         public void Draw(GameField field, Xy focusPoint)
         {
+            if (!MathEx.Between(focusPoint.X, 0, field.Size.X) || !MathEx.Between(focusPoint.Y, 0, field.Size.Y))
+                return;
+
             if (!this.InThreadContext)
             {
                 this.PostAsync(() => this.Draw(field, focusPoint));
@@ -41,14 +41,10 @@ namespace DotNetHero.Core.Components
 
             this.CheckViewportState();
 
-            Xy drawModelFrom = Xy.Empty;
-            if (focusPoint.X >= this.viewport.X / 2)
-                drawModelFrom.X = focusPoint.X - this.viewport.X / 2;
-            if (focusPoint.Y >= this.viewport.Y / 2)
-                drawModelFrom.Y = focusPoint.Y / 2;
+            var drawModelFrom = new Xy(Math.Max(focusPoint.X - this.viewport.Y / 2, 0), Math.Max(focusPoint.Y - this.viewport.Y / 2,0));
 
             var drawSize = new Xy(
-                (int)Math.Ceiling(field.Size.X * (1f / field.Size.X * this.viewport.X)),
+                (int)(field.Size.X * (1f / field.Size.X * this.viewport.X)),
                 (int)(field.Size.Y * (1f / field.Size.Y * this.viewport.Y)));
 
             if (drawModelFrom.X + drawSize.X > field.Size.X)
@@ -70,7 +66,7 @@ namespace DotNetHero.Core.Components
                 renderOffset.Y = Math.Abs(fieldDelta.Y) / 2;
             }
 
-            for (int iy = 0; iy < drawSize.Y; iy++)
+            for (int iy = drawSize.Y - 1; iy >= 0; iy--)
             for (int ix = 0; ix < drawSize.X * 2; ix++)
             {
                 ConsoleColor renderColor = field[(int)(drawModelFrom.X + ix * 0.5), drawModelFrom.Y + iy];
