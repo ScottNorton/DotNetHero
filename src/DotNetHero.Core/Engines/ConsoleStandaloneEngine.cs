@@ -11,6 +11,7 @@ namespace DotNetHero.Core.Engines
         ConsoleStandaloneEngine()
         {
             this.OnStart += ResourceManager.Instance.LoadAllTerrain;
+            this.OnStart += () => SceneManager.Instance.Initialize(ConsoleRenderer.Instance);
         }
 
         public void Dispose()
