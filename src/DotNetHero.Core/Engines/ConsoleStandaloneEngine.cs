@@ -24,6 +24,8 @@ namespace DotNetHero.Core.Engines
         {
             this.OnStart?.Invoke();
 
+            SceneManager.Instance.LoadScene("Menu");
+
             // todo capture and manage main thread for input
             while (true)
                 Thread.Sleep(-1);

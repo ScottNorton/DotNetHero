@@ -8,5 +8,9 @@ namespace DotNetHero.Core.Scenes
     [Scene]
     class World : IScene
     {
+        public void Load()
+        {
+            
+        }
     }
 }

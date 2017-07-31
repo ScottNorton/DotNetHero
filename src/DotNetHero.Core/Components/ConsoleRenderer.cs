@@ -4,9 +4,10 @@ namespace DotNetHero.Core.Components
 {
     using System;
     using DotNetHero.Core.Geometry;
+    using DotNetHero.Core.Interfaces;
     using DotNetHero.Core.Structures;
 
-    public sealed class ConsoleRenderer : ContextThread<ConsoleRenderer>
+    public sealed class ConsoleRenderer : ContextThread<ConsoleRenderer>, IRenderer
     {
         const char TransparentDecoration = ' ';
 
