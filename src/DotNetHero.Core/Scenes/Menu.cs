@@ -11,7 +11,9 @@ namespace DotNetHero.Core.Scenes
     {
         public void Load()
         {
-            SceneManager.Instance.Cookie = (uint)1000;
+            SceneManager.Instance.Cookie = (uint)1001;
+            //sticking to the one map for now
+            // need to come up with a cool way to block input while the renderer is busy..
             SceneManager.Instance.LoadScene("World");
         }
 

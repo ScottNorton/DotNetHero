@@ -40,6 +40,7 @@ namespace DotNetHero.Core.Components
         {
             string path = $"{ResourcePath}{TerrainPath}{fileName}.{TerrainExtension}";
 
+            GameField result;
             using (FileStream fileStream = File.OpenRead(path))
             using (var br = new BinaryReader(fileStream))
             {
@@ -49,20 +50,14 @@ namespace DotNetHero.Core.Components
                 uint id = br.ReadUInt32();
                 int width = br.ReadInt32();
                 int height = br.ReadInt32();
-                var result = new GameField(id, fileName, width, height);
+                result = new GameField(id, fileName, width, height);
 
                 for (int x = 0; x < width; x++)
                 for (int y = 0; y < height; y++)
-                    result.FieldNodes[x, y] = new FieldNode
-                    {
-                        Access = br.ReadBoolean(),
-                        Color = (ConsoleColor)br.ReadInt32()
-                    };
-
+                    result.FieldNodes[x, y] = new FieldNode(br.ReadBoolean(), (ConsoleColor)br.ReadInt32());
                 this.FieldDictionary.Add(id, result);
             }
         }
-
         void SaveGameFieldTerrain(GameField gameField)
         {
             string path = $"{ResourcePath}{TerrainPath}{gameField.Name}.{TerrainExtension}";

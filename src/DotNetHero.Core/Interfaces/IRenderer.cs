@@ -8,6 +8,6 @@
     {
         event Action OnViewportChange;
 
-        void Draw(GameField field, Xy focusPoint);
+        void Draw(GameField field, Xy focalPoint);
     }
 }

@@ -3,12 +3,22 @@
 namespace DotNetHero.Core.Structures
 {
     using System;
+    using DotNetHero.Core.Components;
     using DotNetHero.Core.Geometry;
+    using DotNetHero.Core.Interfaces;
 
-    struct FieldNode
+    public struct FieldNode
     {
-        internal ConsoleColor Color;
+        public FieldNode(bool access, ConsoleColor color)
+        {
+            this.Color = this.StaticColor = color;
+            this.Access = access;
+        }
+
         internal bool Access;
+
+        public ConsoleColor Color;
+        public ConsoleColor StaticColor;
     }
 
     public struct GameField
@@ -28,10 +38,19 @@ namespace DotNetHero.Core.Structures
 
         public Xy Size { get; }
 
-        public ConsoleColor this[int x, int y]
+        public FieldNode this[int x, int y] => this.FieldNodes[x, y];
+
+        public bool UpdateObjectLocation(IFieldObject obj)
         {
-            get => this.FieldNodes[x, y].Color;
-            set => this.FieldNodes[x, y].Color = value;
+            if (!MathEx.Between(obj.Location.X, 0, Size.X) || !MathEx.Between(obj.Location.Y, 0,this.Size.Y))
+                return false;
+
+            if (!this[obj.Location.X, obj.Location.Y].Access)
+                return false;
+
+            this.FieldNodes[obj.PreviousLocation.X, obj.PreviousLocation.Y].Color = this.FieldNodes[obj.PreviousLocation.X, obj.PreviousLocation.Y].StaticColor;
+            this.FieldNodes[obj.Location.X, obj.Location.Y].Color = ConsoleColor.Green;
+            return true;
         }
     }
 }

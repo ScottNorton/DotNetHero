@@ -35,6 +35,15 @@ namespace DotNetHero.Core.Geometry
         {
             return value.X == other.X && value.Y == other.Y;
         }
+        public static bool operator <(Xy value, Xy other)
+        {
+            return !(value > other);
+        }
+
+        public static bool operator >(Xy value, Xy other)
+        {
+            return value.X > other.X && value.Y > other.Y;
+        }
 
         public static Xy operator -(Xy value, Xy other)
         {

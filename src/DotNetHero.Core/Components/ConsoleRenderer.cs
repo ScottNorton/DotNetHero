@@ -41,7 +41,7 @@ namespace DotNetHero.Core.Components
 
             this.CheckViewportState();
 
-            var drawModelFrom = new Xy(Math.Max(focusPoint.X - this.viewport.Y / 2, 0), Math.Max(focusPoint.Y - this.viewport.Y / 2,0));
+            var drawModelFrom = new Xy(Math.Max(focusPoint.X - this.viewport.Y / 2, 0), Math.Max(focusPoint.Y - this.viewport.Y / 2, 0));
 
             var drawSize = new Xy(
                 (int)(field.Size.X * (1f / field.Size.X * this.viewport.X)),
@@ -66,21 +66,23 @@ namespace DotNetHero.Core.Components
                 renderOffset.Y = Math.Abs(fieldDelta.Y) / 2;
             }
 
-            for (int iy = drawSize.Y - 1; iy >= 0; iy--)
+                var curBackground = Console.BackgroundColor;
+            for (int iy = 0; iy < drawSize.Y; iy++)
             for (int ix = 0; ix < drawSize.X * 2; ix++)
             {
-                ConsoleColor renderColor = field[(int)(drawModelFrom.X + ix * 0.5), drawModelFrom.Y + iy];
+                FieldNode node = field[(int)(drawModelFrom.X + ix * 0.5), drawModelFrom.Y + iy];
+
                 int x = renderOffset.X + ix;
                 int y = renderOffset.Y + iy;
 
-                if (this.history[x, y] == renderColor)
+                if (this.history[x, y] == node.Color)
                     continue;
-                this.history[x, y] = renderColor;
-
-                Console.BackgroundColor = renderColor;
+                this.history[x, y] = node.Color;
+                Console.BackgroundColor = node.Color;
                 Console.SetCursorPosition(x, y);
                 Console.Write(TransparentDecoration);
             }
+            Console.BackgroundColor = curBackground; // fix for background color defaults getting messed up
         }
 
         void CheckViewportState()
