@@ -10,6 +10,7 @@ namespace DotNetHero.Core.Engines
     {
         ConsoleStandaloneEngine()
         {
+            this.OnStart += Console.Clear;
             this.OnStart += ResourceManager.Instance.LoadAllTerrain;
             this.OnStart += () => SceneManager.Instance.Initialize(ConsoleRenderer.Instance);
         }

@@ -16,7 +16,11 @@ namespace DotNetHero.Core.Components
         ConsoleColor[,] history;
         Xy viewport;
 
-        ConsoleRenderer() => this.timer = new ContextTimer<ConsoleRenderer>(this.CheckViewportState, TimeSpan.Zero, TimeSpan.FromMilliseconds(10));
+        ConsoleRenderer()
+        {
+            this.timer = new ContextTimer<ConsoleRenderer>(this.CheckViewportState, TimeSpan.Zero, TimeSpan.FromMilliseconds(10));
+            OnViewportChange += Console.Clear;
+        }
 
         public event Action OnViewportChange;
 
@@ -26,7 +30,7 @@ namespace DotNetHero.Core.Components
         /// <remarks>
         /// This will take some extra time to distill before it's complete, will come back to it later.
         /// Need to keep execution of redraws (stide drawing via history) close to 30ms as possible to keep motion smooth.
-        /// todo figure out why the buffer is drawn one under size in both axises
+        /// todo figure out why the buffer is drawn one under size in both axises 
         /// </remarks>
         public void Draw(GameField field, Xy focusPoint)
         {
@@ -66,7 +70,7 @@ namespace DotNetHero.Core.Components
                 renderOffset.Y = Math.Abs(fieldDelta.Y) / 2;
             }
 
-                var curBackground = Console.BackgroundColor;
+            ConsoleColor curBackground = Console.BackgroundColor;
             for (int iy = 0; iy < drawSize.Y; iy++)
             for (int ix = 0; ix < drawSize.X * 2; ix++)
             {
@@ -78,6 +82,7 @@ namespace DotNetHero.Core.Components
                 if (this.history[x, y] == node.Color)
                     continue;
                 this.history[x, y] = node.Color;
+
                 Console.BackgroundColor = node.Color;
                 Console.SetCursorPosition(x, y);
                 Console.Write(TransparentDecoration);
@@ -91,10 +96,13 @@ namespace DotNetHero.Core.Components
                 Console.WindowHeight == this.viewport.Y)
                 return;
 
-            Console.SetCursorPosition(0, 0); // if the cursor is outside the buffer before resizing the buffer, OutOfRange exception.
-            Console.BufferHeight = Console.WindowHeight;
-            Console.CursorVisible = false;
+            // if the cursor is outside the buffer before resizing the buffer, OutOfRange exception... so set it to 0, 0
+            Console.SetCursorPosition(0, 0);
 
+            // incompatible with most other platforms such as linux
+            Console.BufferHeight = Console.WindowHeight;
+
+            Console.CursorVisible = false;
             this.viewport = new Xy(Console.WindowWidth / 2, Console.WindowHeight);
             this.history = new ConsoleColor[Console.WindowWidth, Console.WindowHeight];
 
