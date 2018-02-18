@@ -10,6 +10,8 @@ execute Run.bat to build and run Dot Net Hero.
   
 If you have a machine running Linux, you'll figure it out.
 
+If you have macOS, write about it. Someone will help you shortly.
+
 * Controls
     * W - Up
     * S - Down
