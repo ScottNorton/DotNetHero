@@ -3,11 +3,13 @@
 Console RPG written in C# using .NET Core 2.0 and .NET Standard 2.0
 Ready to build for both Windows 10 and Ubuntu 16, don't forget fullscreen! (Alt+Enter)
 
-Controls:
-    W - Up
-    S - Down
-    A - Left
-    D - Right
+* Controls
+    * W - Up
+    * S - Down
+    * A - Left
+    * D - Right
+    
+
 ![screenshot]
 
 ![screenshot2]
