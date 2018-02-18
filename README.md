@@ -1,4 +1,4 @@
-# DotNetHero
+# Dot Net Hero
 
 Console RPG written in C# using .NET Core 2.0 and .NET Standard 2.0 
   
