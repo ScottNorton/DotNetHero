@@ -9,9 +9,10 @@ Ready to build for both Windows 10 and Ubuntu 16, don't forget fullscreen! (Alt+
     * A - Left
     * D - Right
     
-
+# Windows
 ![screenshot]
 
+# Ubuntu
 ![screenshot2]
 
 [screenshot]: https://image.prntscr.com/image/2aWen4iPTJ6__5w_vvH1sA.png
