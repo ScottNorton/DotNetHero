@@ -4,12 +4,7 @@ Console RPG written in C# using .NET Core 2.0 and .NET Standard 2.0
   
 ## Getting Started
 
-On Windows, make sure you have the current [.NET Core 2.0 Runtime](https://www.microsoft.com/net/download/windows "Microsoft .NET Downloads") then  
-execute Run.bat to build and run Dot Net Hero. 
-  
-If you have a machine running Linux, you'll figure it out.
-
-If you have macOS, write about it. Someone will help you shortly.
+Make sure you have the current [.NET Core 2.0 Runtime](https://www.microsoft.com/net/download/windows "Microsoft .NET Downloads")
 
 * Controls
     * W - Up
@@ -17,7 +12,7 @@ If you have macOS, write about it. Someone will help you shortly.
     * A - Left
     * D - Right
     * Alt + Enter - Full Screen
-      
+    
         
 ## Windows
 ![screenshot]
