@@ -1,6 +1,6 @@
 # Dot Net Hero
 
-Basic console output based dungeon crawler written in C# using .NET Core 2.0 and .NET Standard 2.0 
+Basic console output based dungeon crawler written in C# using .NET Core 2.0
   
 ## Getting Started
 
