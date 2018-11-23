@@ -6,12 +6,13 @@ Basic console output based dungeon crawler and data visualization example writte
 
 Make sure you have the current [.NET Core 2.0 Runtime](https://www.microsoft.com/net/download/windows "Microsoft .NET Downloads")
 
-* Controls
+* Movement Controls
     * W - Up
     * S - Down
     * A - Left
     * D - Right
-    * Alt + Enter - Full Screen
+    
+* Alt + Enter - Full Screen
     
         
 ## Windows
